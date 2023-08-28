@@ -69,16 +69,16 @@ with tab2:
 
     #import intersection and links data
 
-    intersection_key_locations = gdf_load_data(r"C:\Users\GSE1\Documents\apps\ron_analysis\data\key_locations.geojson")
-    intersection_delay = gdf_load_data(r"C:\Users\GSE1\Documents\apps\ron_analysis\data\delay.geojson")
-    intersection_demand = gdf_load_data(r"C:\Users\GSE1\Documents\apps\ron_analysis\data\demand.geojson")
+    intersection_key_locations = gdf_load_data(r"data/key_locations.geojson")
+    intersection_delay = gdf_load_data(r"data/delay.geojson")
+    intersection_demand = gdf_load_data(r"data/demand.geojson")
 
-    links_key_locations = gdf_load_data(r'C:\Users\GSE1\Documents\apps\ron_analysis\data\links_key_locations.geojson')
-    links_delay = gdf_load_data(r'C:\Users\GSE1\Documents\apps\ron_analysis\data\links_delay.geojson')
-    links_demand = gdf_load_data(r'C:\Users\GSE1\Documents\apps\ron_analysis\data\links_demand.geojson')
+    links_key_locations = gdf_load_data(r'data/links_key_locations.geojson')
+    links_delay = gdf_load_data(r'data/links_delay.geojson')
+    links_demand = gdf_load_data(r'data/links_demand.geojson')
 
-    merged_intersections = df_load_data(r'C:\Users\GSE1\Documents\apps\ron_analysis\data\merged_intersections.xlsx')
-    merged_links = df_load_data(r'C:\Users\GSE1\Documents\apps\ron_analysis\data\merged_links.xlsx')
+    merged_intersections = df_load_data(r'data/merged_intersections.xlsx')
+    merged_links = df_load_data(r'data/merged_links.xlsx')
 
     #drop-down box
     analysis_selection = st.selectbox('Please select what type of analysis you are interested in exploring.', ['Key locations', 'Delay', 'Demand'])
