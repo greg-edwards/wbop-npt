@@ -111,7 +111,7 @@ with tab2:
 
             folium.LayerControl().add_to(map)
             
-            out = st_folium(map, height=500, width=900)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
@@ -131,7 +131,7 @@ with tab2:
                         These roads have been selected because they are forecast to accomodate:
                         - an average of **{links_key_locations['ADT_PT'].mean().astype('int')}** bus users per day (2048).
                         - an average of **{links_key_locations['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                        - average level of service (LoS) classification of **{links_key_locations['LOS'].mean().astype('int')}** (2048).
+                        - average level of service (LoS) classification of **{links_key_locations['LOS'].mean().astype('int')}**, equating to >120 seconds of delay per bus every hour (2048).
                         
                         """)
 
@@ -283,7 +283,7 @@ with tab2:
                         These roads have been selected because they are forecast to accomodate:
                         - an average of **{links_delay['ADT_PT'].mean().astype('int')}** bus users per day (2048).
                         - an average of **{links_delay['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                        - average level of service (LoS) classification of **{links_delay['LOS'].mean().astype('int')}** (2048).
+                        - average level of service (LoS) classification of **{links_delay['LOS'].mean().astype('int')}**, equating to >80 seconds of delay per bus every hour (2048).
                         
                         """)
 
@@ -435,7 +435,7 @@ with tab2:
                         These roads have been selected because they are forecast to accomodate:
                         - an average of **{links_demand['ADT_PT'].mean().astype('int')}** bus users per day (2048).
                         - an average of **{links_demand['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                        - average level of service (LoS) classification of **{links_demand['LOS'].mean().astype('int')}** (2048).
+                        - average level of service (LoS) classification of **{links_demand['LOS'].mean().astype('int')}**, equating to >80 seconds of delay per bus every hour (2048).
                         
                         """)
 
@@ -578,9 +578,9 @@ with tab3:
 
     st.markdown("""
                 
-                The main output of NPT is the definition of prioritised nodes and links:
-                - Nodes: locations where there is high PT demand (PT bin >=2, roughly 150+ daily PT trips in AM peak) leading to intersection with forecast high levels of delay (ie LOS D-F). Nodes ranked by the level of forecast demand (AM peak).
-                - Links: routes/links where there is high PT demand (PT bin >=2, roughly 150+ daily PT trips in AM peak) and high number of buses (> 20 per day) under the Hybrid network along low LOS links (ie LOS D-F). Links ranked by the level of forecast demand (AM peak).
+                The main output of NPT is the identification of prioritised nodes and links:
+                - Nodes: locations where there is high PT demand (ie equating to roughly 150+ daily PT trips in AM peak) leading to intersections with forecast high levels of delay (ie, LOS D-F). Nodes ranked by the level of forecast demand (AM peak).
+                - Links: routes/links where there is high PT demand (roughly 150+ daily PT trips in AM peak) and high number of buses (> 20 per day) under the Hybrid network along low LOS links (ie LOS D-F). Links ranked by the level of forecast demand (AM peak).
 
                 
                 """)
