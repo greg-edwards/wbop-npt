@@ -1,0 +1,10 @@
+streamlit
+streamlit_folium
+folium
+pandas
+numpy
+geopandas
+leafmap
+openpyxl
+
+
