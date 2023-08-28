@@ -6,5 +6,7 @@ numpy
 geopandas
 leafmap
 openpyxl
+matplotlib
+mapclassify
 
 
