@@ -159,7 +159,7 @@ with tab2:
 
             folium.LayerControl().add_to(map)
             
-            out = st_folium(map, height=500, width=900)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
@@ -220,7 +220,7 @@ with tab2:
 
             folium.LayerControl().add_to(map)
             
-            out = st_folium(map, height=500, width=900)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
@@ -263,7 +263,7 @@ with tab2:
 
             folium.LayerControl().add_to(map)
             
-            out = st_folium(map, height=500, width=900)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
@@ -311,7 +311,7 @@ with tab2:
 
             folium.LayerControl().add_to(map)
             
-            out = st_folium(map, height=500, width=900)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
@@ -372,7 +372,7 @@ with tab2:
 
             folium.LayerControl().add_to(map)
             
-            out = st_folium(map, height=500, width=900)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
@@ -415,7 +415,7 @@ with tab2:
 
             folium.LayerControl().add_to(map)
             
-            out = st_folium(map, height=500, width=900)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
@@ -463,7 +463,7 @@ with tab2:
 
             folium.LayerControl().add_to(map)
             
-            out = st_folium(map, height=500, width=900)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
@@ -524,7 +524,7 @@ with tab2:
 
             folium.LayerControl().add_to(map)
             
-            out = st_folium(map, height=500, width=900)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
