@@ -552,9 +552,7 @@ with tab2:
     if analysis_selection == 'All locations' and data_selection == 'Roads':
             
         with col1:
-            
-            layer = folium.FeatureGroup(name="layer")
-                        
+                                
             map = links_demand.explore(tiles='CartoDB dark_matter',
                 legend=True,
                 column='LOS',
@@ -566,7 +564,12 @@ with tab2:
                 style_kwds= {
                     
                     "weight":3,
-                    "opacity":0.7})
+                    "opacity":0.7},
+                legend_kwds: {
+                    "caption":"Level of service",
+                    "fmt":"{:.0f}",
+                    "fmt":"white"
+                })
             
             links_key_locations.explore(
                 m=map,
