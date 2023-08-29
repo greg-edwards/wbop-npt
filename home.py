@@ -565,7 +565,7 @@ with tab2:
                 style_kwds= {
                     "color":"orange",
                     "weight":3,
-                    "opacity":0.7}).add_to(layer)
+                    "opacity":0.7})
             
             links_key_locations.explore(
                 m=map,
