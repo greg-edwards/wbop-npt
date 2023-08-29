@@ -608,7 +608,7 @@ with tab2:
                         - {analysis_selection}; where,
                         - {data_selection} has been selected.
 
-                        There are **{len((links_demand.index)+(links_key_locations.index)+(links_delay.index))}** road segments identified in this analysis.
+                        There are **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** road segments identified in this analysis.
 
                         These roads have been selected because they are forecast to accomodate:
                         - an average of **{(links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean()).astype('int')}** bus users per day (2048).
