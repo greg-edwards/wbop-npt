@@ -629,16 +629,19 @@ with tab2:
         with col1:
             
             map = intersection_demand.explore(tiles='CartoDB dark_matter',
-                legend=False,
+                legend=True,
+                column='DELAY_WAVG'
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 zoom_on_click=True,
                 name="Intersections - Prioritised by demand",
                 style_kwds= {
-                    "color":"orange",
                     "weight":3,
-                    "opacity":0.7})
+                    "opacity":0.7},
+                legend_kwds= {
+                    "caption":"Seconds of delay/hr per bus movement",
+                    "fmt":"{:.0f}"})
             
             intersection_key_locations.explore(
                 m=map,
@@ -699,16 +702,20 @@ with tab2:
         with col1:
             
             map = links_demand.explore(tiles='CartoDB dark_matter',
-                legend=False,
+                legend=True,
+                column='LOS',
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 highlight=True,
                 zoom_on_click=True,
                 name="Links - Prioritised by demand",
                 style_kwds= {
-                    "color":"orange",
                     "weight":3,
-                    "opacity":0.7})
+                    "opacity":0.7},
+                legend_kwds= {
+                    "caption":"Links - Level of service",
+                    "fmt":"{:.0f}",
+                })
             
             links_key_locations.explore(
                 m=map,
@@ -719,7 +726,6 @@ with tab2:
                 zoom_on_click=True,
                 name="Links - Key locations",
                 style_kwds= {
-                    "color":"red",
                     "weight":3,
                     "opacity":0.7})
             
@@ -732,22 +738,25 @@ with tab2:
                 zoom_on_click=True,
                 name="Links - Prioritised by delay",
                 style_kwds= {
-                    "color":"yellow",
                     "weight":3,
                     "opacity":0.7})
             
             intersection_demand.explore(
                 m=map,
-                legend=False,
+                legend=True,
+                column='DELAY_WAVG'
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 zoom_on_click=True,
                 name="Intersections - Prioritised by demand",
                 style_kwds= {
-                    "color":"orange",
                     "weight":3,
-                    "opacity":0.7})
+                    "opacity":0.7},
+                legend_kwds= {
+                    "caption":"Intersections - Seconds of delay/hr per bus movement",
+                    "fmt":"{:.0f}",
+                })
             
             intersection_key_locations.explore(
                 m=map,
@@ -758,7 +767,6 @@ with tab2:
                 zoom_on_click=True,
                 name="Intersections - Key locations",
                 style_kwds= {
-                    "color":"red",
                     "weight":3,
                     "opacity":0.7})
             
@@ -771,7 +779,6 @@ with tab2:
                 zoom_on_click=True,
                 name="Intersections - Prioritised by delay",
                 style_kwds= {
-                    "color":"yellow",
                     "weight":3,
                     "opacity":0.7})
 
