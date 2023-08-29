@@ -578,7 +578,7 @@ with tab2:
                 style_kwds= {
                     "color":"red",
                     "weight":3,
-                    "opacity":0.7}).add_to(layer)
+                    "opacity":0.7})
             
             links_delay.explore(
                 m=map,
@@ -591,12 +591,12 @@ with tab2:
                 style_kwds= {
                     "color":"yellow",
                     "weight":3,
-                    "opacity":0.7}).add_to(layer)
+                    "opacity":0.7})
             
 
-            folium.LayerControl().add_to(layer)
+            folium.LayerControl().add_to(map)
             
-            out = st_folium(layer, use_container_width=True)
+            out = st_folium(map, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
