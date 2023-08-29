@@ -45,9 +45,10 @@ with tab1:
                 The Network Prioritisation Tool (NPT) has been developed to help identify network locations that could benefit from PT investment. It provides a summary of roads and intersections across the transport network representing varying levels of priority based on specific criteria such as bus delay and forecast passenger demand. Users can customize the analysis for their specific purpose to better understand the factors that influence where investment could be targeted.
                 
                 Locations are split into several categories:
-                - **Key locations:** representing the highest priority locations where sigificant bus delays, bus volumes, and passenger demand is expected
-                - **Delay:** secondary locations outside of the key locations where buses are expected to suffer reasonable levels of delay in the future
-                - **Demand:** secondary locations outside of the key locations experiencing greater levels of bus demand 
+                - **Key locations:** representing the highest priority locations where sigificant bus delays, bus volumes, and passenger demand is expected.
+                - **Delay:** secondary locations outside of the key locations where buses are expected to suffer reasonable levels of delay in the future.
+                - **Demand:** secondary locations outside of the key locations experiencing greater levels of bus demand.
+                - **All locations:** All of the above.
                 
                 To view the NPT tool, click on 'The tool' tab above.
                 """)
@@ -552,8 +553,10 @@ with tab2:
             
         with col1:
             
+            layer = folium.FeatureGroup(name="layer")
+                        
             map = links_demand.explore(tiles='CartoDB dark_matter',
-                legend=False,
+                legend=True,
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 highlight=True,
@@ -562,7 +565,7 @@ with tab2:
                 style_kwds= {
                     "color":"orange",
                     "weight":3,
-                    "opacity":0.7})
+                    "opacity":0.7}).add_to(layer)
             
             links_key_locations.explore(
                 m=map,
@@ -575,7 +578,7 @@ with tab2:
                 style_kwds= {
                     "color":"red",
                     "weight":3,
-                    "opacity":0.7})
+                    "opacity":0.7}).add_to(layer)
             
             links_delay.explore(
                 m=map,
@@ -584,16 +587,16 @@ with tab2:
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 highlight=True,
                 zoom_on_click=True,
-                name="Links - Key locations",
+                name="Links - Prioritised by delay",
                 style_kwds= {
                     "color":"yellow",
                     "weight":3,
-                    "opacity":0.7})
+                    "opacity":0.7}).add_to(layer)
             
 
-            folium.LayerControl().add_to(map)
+            folium.LayerControl().add_to(layer)
             
-            out = st_folium(map, use_container_width=True)
+            out = st_folium(layer, use_container_width=True)
                 
             if st.checkbox('Show raw data'):
                 st.subheader('Raw data')
@@ -627,7 +630,7 @@ with tab2:
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 zoom_on_click=True,
-                name="Links - Prioritised by demand",
+                name="Intersections - Prioritised by demand",
                 style_kwds= {
                     "color":"orange",
                     "weight":3,
@@ -640,7 +643,7 @@ with tab2:
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 zoom_on_click=True,
-                name="Links - Key locations",
+                name="Intersections - Key locations",
                 style_kwds= {
                     "color":"red",
                     "weight":3,
@@ -653,7 +656,7 @@ with tab2:
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 zoom_on_click=True,
-                name="Links - Key locations",
+                name="Intersections - Prioritised by delay",
                 style_kwds= {
                     "color":"yellow",
                     "weight":3,
@@ -723,7 +726,7 @@ with tab2:
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 highlight=True,
                 zoom_on_click=True,
-                name="Links - Key locations",
+                name="Links - Prioritised by delay",
                 style_kwds= {
                     "color":"yellow",
                     "weight":3,
@@ -736,7 +739,7 @@ with tab2:
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 zoom_on_click=True,
-                name="Links - Prioritised by demand",
+                name="Intersections - Prioritised by demand",
                 style_kwds= {
                     "color":"orange",
                     "weight":3,
@@ -749,7 +752,7 @@ with tab2:
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 zoom_on_click=True,
-                name="Links - Key locations",
+                name="Intersections - Key locations",
                 style_kwds= {
                     "color":"red",
                     "weight":3,
@@ -762,7 +765,7 @@ with tab2:
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 zoom_on_click=True,
-                name="Links - Key locations",
+                name="Intersections - Prioritised by delay",
                 style_kwds= {
                     "color":"yellow",
                     "weight":3,
