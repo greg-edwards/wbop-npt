@@ -617,7 +617,7 @@ with tab2:
                         
                         """)
 
-    if analysis_selection == 'Demand' and data_selection == 'Intersections':
+    if analysis_selection == 'All locations' and data_selection == 'Intersections':
             
         with col1:
             
@@ -687,7 +687,7 @@ with tab2:
                         """) 
 
 
-    if analysis_selection == 'Demand' and data_selection == 'Both roads and intersections':
+    if analysis_selection == 'All locations' and data_selection == 'Both roads and intersections':
             
         with col1:
             
