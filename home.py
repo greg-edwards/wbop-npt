@@ -564,7 +564,7 @@ with tab2:
                 zoom_on_click=True,
                 name="Links - Prioritised by demand",
                 style_kwds= {
-                    "color":"orange",
+                    
                     "weight":3,
                     "opacity":0.7})
             
@@ -578,7 +578,7 @@ with tab2:
                 zoom_on_click=True,
                 name="Links - Key locations",
                 style_kwds= {
-                    "color":"red",
+                    
                     "weight":3,
                     "opacity":0.7})
             
@@ -592,7 +592,7 @@ with tab2:
                 zoom_on_click=True,
                 name="Links - Prioritised by delay",
                 style_kwds= {
-                    "color":"yellow",
+                    
                     "weight":3,
                     "opacity":0.7})
             
