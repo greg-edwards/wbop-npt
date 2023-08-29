@@ -81,7 +81,7 @@ with tab2:
     merged_links = df_load_data(r'data/merged_links.xlsx')
 
     #drop-down box
-    analysis_selection = st.selectbox('Please select what type of analysis you are interested in exploring.', ['Key locations', 'Delay', 'Demand'])
+    analysis_selection = st.selectbox('Please select what type of analysis you are interested in exploring.', ['Key locations', 'Delay', 'Demand', 'All locations'])
     #radio button
     data_selection = st.radio('What type of data do you want to see?', ['Select', 'Roads', 'Intersections', 'Both roads and intersections'])
     
@@ -546,7 +546,254 @@ with tab2:
                         - an average of **{(intersection_demand['AM_PT'].mean().astype('int'))+(links_demand['AM_PT'].mean().astype('int'))}** bus users in the AM peak (2048).
                         - average delays of **{intersection_demand['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
                         
+                        """)
+
+    if analysis_selection == 'All locations' and data_selection == 'Roads':
+            
+        with col1:
+            
+            map = links_demand.explore(tiles='CartoDB dark_matter',
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Prioritised by demand",
+                style_kwds= {
+                    "color":"orange",
+                    "weight":3,
+                    "opacity":0.7})
+            
+            links_key_locations.explore(
+                m=map,
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Key locations",
+                style_kwds= {
+                    "color":"red",
+                    "weight":3,
+                    "opacity":0.7})
+            
+            links_delay.explore(
+                m=map,
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Key locations",
+                style_kwds= {
+                    "color":"yellow",
+                    "weight":3,
+                    "opacity":0.7})
+            
+
+            folium.LayerControl().add_to(map)
+            
+            out = st_folium(map, use_container_width=True)
+                
+            if st.checkbox('Show raw data'):
+                st.subheader('Raw data')
+                st.write(pd.concat([links_key_locations, links_demand, links_delay]))  
+            
+        with col2:
+            st.subheader("All Locations Summary")
+
+            st.markdown(f"""
+                        
+                        This shows the results of analysis for:
+                        - {analysis_selection}; where,
+                        - {data_selection} has been selected.
+
+                        There are **{len(links_demand.index)+(links_key_locations.index)+(links_delay.index)}** road segments identified in this analysis.
+
+                        These roads have been selected because they are forecast to accomodate:
+                        - an average of **{(links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean()).astype('int')}** bus users per day (2048).
+                        - an average of **{(links_demand['AM_PT'].mean())+(links_key_locations['AM_PT'].mean())+(links_delay['AM_PT'].mean()).astype('int')}** bus users in the AM peak (2048).
+                        - average level of service (LoS) classification of **{links_key_locations['LOS'].mean().astype('int')}**, equating to >80 seconds of delay per bus every hour (2048).
+                        
+                        """)
+
+    if analysis_selection == 'Demand' and data_selection == 'Intersections':
+            
+        with col1:
+            
+            map = intersection_demand.explore(tiles='CartoDB dark_matter',
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Prioritised by demand",
+                style_kwds= {
+                    "color":"orange",
+                    "weight":3,
+                    "opacity":0.7})
+            
+            intersection_key_locations.explore(
+                m=map,
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Key locations",
+                style_kwds= {
+                    "color":"red",
+                    "weight":3,
+                    "opacity":0.7})
+            
+            intersection_delay.explore(
+                m=map,
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Key locations",
+                style_kwds= {
+                    "color":"yellow",
+                    "weight":3,
+                    "opacity":0.7})
+
+
+            folium.LayerControl().add_to(map)
+            
+            out = st_folium(map, use_container_width=True)
+                
+            if st.checkbox('Show raw data'):
+                st.subheader('Raw data')
+                st.write(pd.concat([intersection_key_locations, intersection_delay, intersection_demand]))  
+            
+        with col2:
+            st.subheader("All Locations Summary")
+
+            st.markdown(f"""
+                        
+                        This shows the results of analysis for:
+                        - {analysis_selection}; where,
+                        - {data_selection} has been selected.
+
+                        There are **{len(intersection_demand.index)+(intersection_key_locations.index)+(intersection_delay.index)} identified in this analysis.
+
+                        These intersections have been selected because they accomodate::
+                        - an average of **{(intersection_demand['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())+(intersection_delay['ADT_PT'].mean()).astype('int')}** bus users travelling through them every day (2048).
+                        - an average of **{(intersection_demand['AM_PT'].mean())+(intersection_key_locations['AM_PT'].mean())+(intersection_delay['AM_PT'].mean()).astype('int')}** bus users in the AM peak (2048).
+                        - average delays of **{(intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean()).astype('int')}** seconds every hour per bus movement (2048).
+                        
                         """) 
+
+
+    if analysis_selection == 'Demand' and data_selection == 'Both roads and intersections':
+            
+        with col1:
+            
+            map = links_demand.explore(tiles='CartoDB dark_matter',
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Prioritised by demand",
+                style_kwds= {
+                    "color":"orange",
+                    "weight":3,
+                    "opacity":0.7})
+            
+            links_key_locations.explore(
+                m=map,
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Key locations",
+                style_kwds= {
+                    "color":"red",
+                    "weight":3,
+                    "opacity":0.7})
+            
+            links_delay.explore(
+                m=map,
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Key locations",
+                style_kwds= {
+                    "color":"yellow",
+                    "weight":3,
+                    "opacity":0.7})
+            
+            intersection_demand.explore(
+                m=map,
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Prioritised by demand",
+                style_kwds= {
+                    "color":"orange",
+                    "weight":3,
+                    "opacity":0.7})
+            
+            intersection_key_locations.explore(
+                m=map,
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Key locations",
+                style_kwds= {
+                    "color":"red",
+                    "weight":3,
+                    "opacity":0.7})
+            
+            intersection_delay.explore(
+                m=map,
+                legend=False,
+                tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                highlight=True,
+                zoom_on_click=True,
+                name="Links - Key locations",
+                style_kwds= {
+                    "color":"yellow",
+                    "weight":3,
+                    "opacity":0.7})
+
+
+            folium.LayerControl().add_to(map)
+            
+            out = st_folium(map, use_container_width=True)
+                
+            if st.checkbox('Show raw data'):
+                st.subheader('Raw data')
+                st.write(pd.concat([intersection_key_locations, intersection_delay, intersection_demand, links_key_locations, links_demand, links_delay]))  
+            
+        with col2:
+            st.subheader("All Locations Summary")
+
+            st.markdown(f"""
+                        
+                        This shows the results of analysis for:
+                        - {analysis_selection}; where,
+                        - {data_selection} has been selected.
+
+                        There are **{len(intersection_demand.index)+(intersection_key_locations.index)+(intersection_delay.index)}** intersections and **{len(links_demand.index)+(links_key_locations.index)+(links_delay.index)}** road segments identified in this analysis.
+
+                        These roads and intersections have been selected because they accomodate:
+                        - an average of **{(((links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean())).astype('int'))+(((intersection_demand['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())+(intersection_delay['ADT_PT'].mean())).astype('int'))}** bus users travelling through them every day (2048).
+                        - an average of **{(((links_demand['AM_PT'].mean())+(links_key_locations['AM_PT'].mean())+(links_delay['AM_PT'].mean())).astype('int'))+(((intersection_demand['AM_PT'].mean())+(intersection_key_locations['AM_PT'].mean())+(intersection_delay['AM_PT'].mean())).astype('int'))}** bus users in the AM peak (2048).
+                        - average delays of **{(intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean()).astype('int')}** seconds every hour per bus movement (2048).
+                        
+                        """)
 
 with tab3:
     st.markdown("""
@@ -574,13 +821,22 @@ with tab3:
 
     st.table(df)
 
-    st.subheader("Results")
+    st.subheader("Analysis Thresholds")
 
     st.markdown("""
                 
-                The main output of NPT is the identification of prioritised nodes and links:
-                - Nodes: locations where there is high PT demand (ie equating to roughly 150+ daily PT trips in AM peak) leading to intersections with forecast high levels of delay (ie, LOS D-F). Nodes ranked by the level of forecast demand (AM peak).
-                - Links: routes/links where there is high PT demand (roughly 150+ daily PT trips in AM peak) and high number of buses (> 20 per day) under the Hybrid network along low LOS links (ie LOS D-F). Links ranked by the level of forecast demand (AM peak).
+                The NPT uses several threshold criteria to identify and prioritise nodes and links:
 
-                
+                **Key Locations**
+                - Nodes: locations where there is high PT demand (ie equating to roughly 150+ daily trips in AM peak) leading to intersections with forecast high levels of delay (ie, LOS D-F). Nodes ranked by the level of forecast demand (AM peak).
+                - Links: routes/links where there is high PT demand (roughly 150+ daily PT trips in AM peak) and high number of buses (>= 20 per day) under the Hybrid network along low LOS links (ie LOS D-F). Links ranked by the level of forecast demand (AM peak).
+
+                **Delay Locations**
+                - Nodes: locations (outsie of key locations) where there is high PT demand (ie equating to roughly 150+ daily trips in AM peak) leading to intersections with forecast moderate levels of delay (ie, LOS C-F). Nodes ranked by delay.
+                - Links: routes/links where there is high PT demand (roughly 150+ daily PT trips in AM peak) and high number of buses (>= 20 per day) under the Hybrid network along low LOS links (ie LOS C-F). Links ranked by delay.
+
+                **Demand Locations**
+                - Nodes: locations (outsie of key locations) where there is moderate PT demand (ie equating to roughly 80+ daily trips in AM peak) leading to intersections with forecast moderate levels of delay (ie, LOS C-F). Nodes ranked by forecast AM peak demand.
+                - Links: routes/links where there is mdoerate PT demand (roughly 80+ daily PT trips in AM peak) and high number of buses (>= 20 per day) under the Hybrid network along low LOS links (ie LOS C-F). Links ranked by forecast AM peak demand. 
+
                 """)
