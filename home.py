@@ -565,7 +565,7 @@ with tab2:
                     
                     "weight":3,
                     "opacity":0.7},
-                legend_kwds: {
+                legend_kwds= {
                     "caption":"Level of service",
                     "fmt":"{:.0f}",
                     "fmt":"white"
