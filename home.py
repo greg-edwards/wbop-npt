@@ -645,6 +645,7 @@ with tab2:
             
             intersection_key_locations.explore(
                 m=map,
+                column='DELAY_WAVG',
                 legend=False,
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
@@ -657,6 +658,7 @@ with tab2:
             
             intersection_delay.explore(
                 m=map,
+                column='DELAY_WAVG',
                 legend=False,
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
@@ -717,6 +719,7 @@ with tab2:
             
             links_key_locations.explore(
                 m=map,
+                column='LOS',
                 legend=False,
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
@@ -729,6 +732,7 @@ with tab2:
             
             links_delay.explore(
                 m=map,
+                column='LOS',
                 legend=False,
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
@@ -758,6 +762,7 @@ with tab2:
             
             intersection_key_locations.explore(
                 m=map,
+                column='DELAY_WAVG',
                 legend=False,
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
@@ -770,6 +775,7 @@ with tab2:
             
             intersection_delay.explore(
                 m=map,
+                column='DELAY_WAVG',
                 legend=False,
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
