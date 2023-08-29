@@ -611,9 +611,9 @@ with tab2:
                         There are **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** road segments identified in this analysis.
 
                         These roads have been selected because they are forecast to accomodate:
-                        - an average of **{(links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean()).astype('int')}** bus users per day (2048).
-                        - an average of **{(links_demand['AM_PT'].mean())+(links_key_locations['AM_PT'].mean())+(links_delay['AM_PT'].mean()).astype('int')}** bus users in the AM peak (2048).
-                        - average level of service (LoS) classification of **{links_key_locations['LOS'].mean().astype('int')}**, equating to >80 seconds of delay per bus every hour (2048).
+                        - an average of **{((links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean())).astype('int')}** bus users per day (2048).
+                        - an average of **{((links_demand['AM_PT'].mean())+(links_key_locations['AM_PT'].mean())+(links_delay['AM_PT'].mean())).astype('int')}** bus users in the AM peak (2048).
+                        - average level of service (LoS) classification of **{links_key_locations['LOS'].mean().astype('int')}**, equating to >120 seconds of delay per bus every hour (2048).
                         
                         """)
 
@@ -677,12 +677,12 @@ with tab2:
                         - {analysis_selection}; where,
                         - {data_selection} has been selected.
 
-                        There are **{(len(intersection_demand.index))+(len(intersection_key_locations.index))+(len(intersection_delay.index))} identified in this analysis.
+                        There are **{(len(intersection_demand.index))+(len(intersection_key_locations.index))+(len(intersection_delay.index))}** identified in this analysis.
 
                         These intersections have been selected because they accomodate::
-                        - an average of **{(intersection_demand['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())+(intersection_delay['ADT_PT'].mean()).astype('int')}** bus users travelling through them every day (2048).
-                        - an average of **{(intersection_demand['AM_PT'].mean())+(intersection_key_locations['AM_PT'].mean())+(intersection_delay['AM_PT'].mean()).astype('int')}** bus users in the AM peak (2048).
-                        - average delays of **{(intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean()).astype('int')}** seconds every hour per bus movement (2048).
+                        - an average of **{((intersection_demand['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())+(intersection_delay['ADT_PT'].mean())).astype('int')}** bus users travelling through them every day (2048).
+                        - an average of **{((intersection_demand['AM_PT'].mean())+(intersection_key_locations['AM_PT'].mean())+(intersection_delay['AM_PT'].mean())).astype('int')}** bus users in the AM peak (2048).
+                        - average delays of **{((intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean())).astype('int')}** seconds every hour per bus movement (2048).
                         
                         """) 
 
@@ -786,12 +786,12 @@ with tab2:
                         - {analysis_selection}; where,
                         - {data_selection} has been selected.
 
-                        There are **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** intersections and **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** road segments identified in this analysis.
+                        There are **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** intersections and **{(len(intersection_demand.index))+(len(intersection_key_locations.index))+(len(intersection_delay.index))}** road segments identified in this analysis.
 
                         These roads and intersections have been selected because they accomodate:
                         - an average of **{(((links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean())).astype('int'))+(((intersection_demand['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())+(intersection_delay['ADT_PT'].mean())).astype('int'))}** bus users travelling through them every day (2048).
                         - an average of **{(((links_demand['AM_PT'].mean())+(links_key_locations['AM_PT'].mean())+(links_delay['AM_PT'].mean())).astype('int'))+(((intersection_demand['AM_PT'].mean())+(intersection_key_locations['AM_PT'].mean())+(intersection_delay['AM_PT'].mean())).astype('int'))}** bus users in the AM peak (2048).
-                        - average delays of **{(intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean()).astype('int')}** seconds every hour per bus movement (2048).
+                        - average delays of **{((intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean())).astype('int')}** seconds every hour per bus movement (2048).
                         
                         """)
 
