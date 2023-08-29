@@ -557,6 +557,7 @@ with tab2:
                         
             map = links_demand.explore(tiles='CartoDB dark_matter',
                 legend=True,
+                column='LOS',
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 highlight=True,
@@ -569,6 +570,7 @@ with tab2:
             
             links_key_locations.explore(
                 m=map,
+                column='LOS',
                 legend=False,
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
@@ -582,6 +584,7 @@ with tab2:
             
             links_delay.explore(
                 m=map,
+                column='LOS',
                 legend=False,
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
@@ -593,7 +596,6 @@ with tab2:
                     "weight":3,
                     "opacity":0.7})
             
-
             folium.LayerControl().add_to(map)
             
             out = st_folium(map, use_container_width=True)
