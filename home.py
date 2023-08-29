@@ -568,7 +568,6 @@ with tab2:
                 legend_kwds= {
                     "caption":"Level of service",
                     "fmt":"{:.0f}",
-                    "fmt":"white"
                 })
             
             links_key_locations.explore(
