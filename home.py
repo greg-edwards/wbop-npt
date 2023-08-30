@@ -84,7 +84,7 @@ with tab2:
     #drop-down box
     analysis_selection = st.selectbox('Please select what type of analysis you are interested in exploring.', ['Select', 'Key locations', 'Delay', 'Demand', 'All locations'])
     
-    if analysis_selection == ['Key locations', 'Delay', 'Demand', 'All locations']:
+    if analysis_selection == 'Key locations' or 'Delay' or 'Demand' or 'All locations':
         
         #radio button
         data_selection = st.radio('What type of data do you want to see?', ['Select', 'Roads', 'Intersections', 'Both roads and intersections'])
