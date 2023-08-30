@@ -83,11 +83,14 @@ with tab2:
 
     #drop-down box
     analysis_selection = st.selectbox('Please select what type of analysis you are interested in exploring.', ['Key locations', 'Delay', 'Demand', 'All locations'])
-    #radio button
-    data_selection = st.radio('What type of data do you want to see?', ['Select', 'Roads', 'Intersections', 'Both roads and intersections'])
     
+    if analysis_selection == True:
+        
+        #radio button
+        data_selection = st.radio('What type of data do you want to see?', ['Select', 'Roads', 'Intersections', 'Both roads and intersections'])
+        
 
-    st.info("Tip: click on the roads or intersections to explore the data further.")
+        st.info("Tip: click on the roads or intersections to explore the data further.")
 
     #define columns
     col1, col2 = st.columns([3, 1])
@@ -97,7 +100,7 @@ with tab2:
             
         with col1:
             
-            map = links_key_locations.explore(tiles='CartoDB dark_matter',
+            map = links_key_locations.explore(tiles='CartoDB positron',
                 legend=False,
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
@@ -140,7 +143,7 @@ with tab2:
             
         with col1:
             
-            map = intersection_key_locations.explore(tiles='CartoDB dark_matter',
+            map = intersection_key_locations.explore(tiles='CartoDB positron',
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 legend=False,
@@ -189,7 +192,7 @@ with tab2:
             
         with col1:
             
-            map = intersection_key_locations.explore(tiles='CartoDB dark_matter',
+            map = intersection_key_locations.explore(tiles='CartoDB positron',
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 legend=False,
@@ -249,7 +252,7 @@ with tab2:
             
         with col1:
             
-            map = links_delay.explore(tiles='CartoDB dark_matter',
+            map = links_delay.explore(tiles='CartoDB positron',
                 legend=False,
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
@@ -292,7 +295,7 @@ with tab2:
             
         with col1:
             
-            map = intersection_delay.explore(tiles='CartoDB dark_matter',
+            map = intersection_delay.explore(tiles='CartoDB positron',
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 legend=False,
@@ -341,7 +344,7 @@ with tab2:
             
         with col1:
             
-            map = intersection_delay.explore(tiles='CartoDB dark_matter',
+            map = intersection_delay.explore(tiles='CartoDB positron',
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 legend=False,
@@ -401,7 +404,7 @@ with tab2:
             
         with col1:
             
-            map = links_demand.explore(tiles='CartoDB dark_matter',
+            map = links_demand.explore(tiles='CartoDB positron',
                 legend=False,
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
                 popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
@@ -444,7 +447,7 @@ with tab2:
             
         with col1:
             
-            map = intersection_demand.explore(tiles='CartoDB dark_matter',
+            map = intersection_demand.explore(tiles='CartoDB positron',
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 legend=False,
@@ -493,7 +496,7 @@ with tab2:
             
         with col1:
             
-            map = intersection_demand.explore(tiles='CartoDB dark_matter',
+            map = intersection_demand.explore(tiles='CartoDB positron',
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
                 highlight=True,
                 legend=False,
@@ -628,7 +631,7 @@ with tab2:
             
         with col1:
             
-            map = intersection_demand.explore(tiles='CartoDB dark_matter',
+            map = intersection_demand.explore(tiles='CartoDB positron',
                 legend=True,
                 column='DELAY_WAVG',
                 tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
@@ -701,7 +704,7 @@ with tab2:
             
         with col1:
             
-            map = links_demand.explore(tiles='CartoDB dark_matter',
+            map = links_demand.explore(tiles='CartoDB positron',
                 legend=True,
                 column='LOS',
                 tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
