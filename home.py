@@ -95,725 +95,725 @@ with tab2:
         #define columns
         col1, col2 = st.columns([3, 1])
 
-            #show specific maps and data on selection
-            if analysis_selection == 'Key locations' and data_selection == 'Roads':
+        #show specific maps and data on selection
+        if analysis_selection == 'Key locations' and data_selection == 'Roads':
+                
+            with col1:
+                
+                map = links_key_locations.explore(tiles='CartoDB positron',
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Critical locations",
+                    style_kwds= {
+                        "color":"red",
+                        "weight":3,
+                        "opacity":0.7})
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
                     
-                with col1:
-                    
-                    map = links_key_locations.explore(tiles='CartoDB positron',
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Critical locations",
-                        style_kwds= {
-                            "color":"red",
-                            "weight":3,
-                            "opacity":0.7})
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(links_key_locations)  
+                
+            with col2:
+                st.subheader("Key Locations Summary")
 
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
-                        
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(links_key_locations)  
-                    
-                with col2:
-                    st.subheader("Key Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{len(links_key_locations.index)}** road segments identified in this analysis.
-
-                                These roads have been selected because they are forecast to accomodate:
-                                - an average of **{links_key_locations['ADT_PT'].mean().astype('int')}** bus users per day (2048).
-                                - an average of **{links_key_locations['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                                - average level of service (LoS) classification of **{links_key_locations['LOS'].mean().astype('int')}**, equating to >120 seconds of delay per bus every hour (2048).
-                                
-                                """)
-
-            if analysis_selection == 'Key locations' and data_selection == 'Intersections':
-                    
-                with col1:
-                    
-                    map = intersection_key_locations.explore(tiles='CartoDB positron',
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        legend=False,
-                        zoom_on_click=True,
-                        name="Intersections - Critical locations",
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        marker_type="circle_marker",
-                        marker_kwds={
-                            "radius" : "6"},
-                        style_kwds= {
-                            "fillColor":"red",
-                            "stroke":True,
-                            "weight":0.6,
-                            "opacity":0.7
-                        })
-
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
-                        
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(intersection_key_locations)  
-                    
-                with col2:
-                    st.subheader("Key Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{len(intersection_key_locations.index)}** {data_selection} identified in this analysis.
-
-                                These intersections have been selected because they accomodate::
-                                - an average of **{intersection_key_locations['ADT_PT'].mean().astype('int')}** bus users travelling through them every day (2048).
-                                - an average of **{intersection_key_locations['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                                - average delays of **{intersection_key_locations['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
-                                
-                                """) 
-
-
-            if analysis_selection == 'Key locations' and data_selection == 'Both roads and intersections':
-                    
-                with col1:
-                    
-                    map = intersection_key_locations.explore(tiles='CartoDB positron',
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        legend=False,
-                        zoom_on_click=True,
-                        name="Intersections - Critical locations",
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        marker_type="circle_marker",
-                        marker_kwds={
-                            "radius" : "6"},
-                        style_kwds= {
-                            "fillColor":"red",
-                            "stroke":True,
-                            "weight":0.6,
-                            "opacity":0.7})
-                    
-                    links_key_locations.explore(
-                        m=map,
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Critical locations",
-                        style_kwds= {
-                            "color":"red",
-                            "weight":3,
-                            "opacity":0.7})
-
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
-                        
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(pd.concat([intersection_key_locations, links_key_locations]))  
-                    
-                with col2:
-                    st.subheader("Key Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{len(intersection_key_locations.index)}** intersections and **{len(links_key_locations.index)}** road segments identified in this analysis.
-
-                                These roads and intersections have been selected because they accomodate:
-                                - an average of **{intersection_key_locations['ADT_PT'].mean().astype('int')}** bus users travelling through them every day (2048).
-                                - an average of **{intersection_key_locations['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                                - average delays of **{intersection_key_locations['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
-                                
-                                """)
-
-            if analysis_selection == 'Delay' and data_selection == 'Roads':
-                    
-                with col1:
-                    
-                    map = links_delay.explore(tiles='CartoDB positron',
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Prioritised by delay",
-                        style_kwds= {
-                            "color":"red",
-                            "weight":3,
-                            "opacity":0.7})
-
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
-                        
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(links_delay)  
-                    
-                with col2:
-                    st.subheader("Delay Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{len(links_delay.index)}** road segments identified in this analysis.
-
-                                These roads have been selected because they are forecast to accomodate:
-                                - an average of **{links_delay['ADT_PT'].mean().astype('int')}** bus users per day (2048).
-                                - an average of **{links_delay['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                                - average level of service (LoS) classification of **{links_delay['LOS'].mean().astype('int')}**, equating to >80 seconds of delay per bus every hour (2048).
-                                
-                                """)
-
-            if analysis_selection == 'Delay' and data_selection == 'Intersections':
-                    
-                with col1:
-                    
-                    map = intersection_delay.explore(tiles='CartoDB positron',
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        legend=False,
-                        zoom_on_click=True,
-                        name="Intersections - Prioritised by delay",
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        marker_type="circle_marker",
-                        marker_kwds={
-                            "radius" : "6"},
-                        style_kwds= {
-                            "fillColor":"red",
-                            "stroke":True,
-                            "weight":0.6,
-                            "opacity":0.7
-                        })
-
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
-                        
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(intersection_delay)  
-                    
-                with col2:
-                    st.subheader("Delay Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{len(intersection_delay.index)}** {data_selection} identified in this analysis.
-
-                                These intersections have been selected because they accomodate::
-                                - an average of **{intersection_delay['ADT_PT'].mean().astype('int')}** bus users travelling through them every day (2048).
-                                - an average of **{intersection_delay['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                                - average delays of **{intersection_delay['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
-                                
-                                """) 
-
-
-            if analysis_selection == 'Delay' and data_selection == 'Both roads and intersections':
-                    
-                with col1:
-                    
-                    map = intersection_delay.explore(tiles='CartoDB positron',
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        legend=False,
-                        zoom_on_click=True,
-                        name="Intersections - Prioritised by delay",
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        marker_type="circle_marker",
-                        marker_kwds={
-                            "radius" : "6"},
-                        style_kwds= {
-                            "fillColor":"red",
-                            "stroke":True,
-                            "weight":0.6,
-                            "opacity":0.7})
-                    
-                    links_delay.explore(
-                        m=map,
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Prioritised by delay",
-                        style_kwds= {
-                            "color":"red",
-                            "weight":3,
-                            "opacity":0.7})
-
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
-                        
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(pd.concat([intersection_delay, intersection_demand]))  
-                    
-                with col2:
-                    st.subheader("Delay Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{len(intersection_delay.index)}** intersections and **{len(links_delay.index)}** road segments identified in this analysis.
-
-                                These roads and intersections have been selected because they accomodate:
-                                - an average of **{(links_delay['ADT_PT'].mean().astype('int'))+(intersection_delay['ADT_PT'].mean().astype('int'))}** bus users travelling through them every day (2048).
-                                - an average of **{(intersection_delay['AM_PT'].mean().astype('int'))+(links_delay['AM_PT'].mean().astype('int'))}** bus users in the AM peak (2048).
-                                - average delays of **{intersection_delay['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
-                                
-                                """) 
-                    
-            if analysis_selection == 'Demand' and data_selection == 'Roads':
-                    
-                with col1:
-                    
-                    map = links_demand.explore(tiles='CartoDB positron',
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Prioritised by demand",
-                        style_kwds= {
-                            "color":"red",
-                            "weight":3,
-                            "opacity":0.7})
-
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
-                        
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(links_demand)  
-                    
-                with col2:
-                    st.subheader("Demand Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{len(links_demand.index)}** road segments identified in this analysis.
-
-                                These roads have been selected because they are forecast to accomodate:
-                                - an average of **{links_demand['ADT_PT'].mean().astype('int')}** bus users per day (2048).
-                                - an average of **{links_demand['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                                - average level of service (LoS) classification of **{links_demand['LOS'].mean().astype('int')}**, equating to >80 seconds of delay per bus every hour (2048).
-                                
-                                """)
-
-            if analysis_selection == 'Demand' and data_selection == 'Intersections':
-                    
-                with col1:
-                    
-                    map = intersection_demand.explore(tiles='CartoDB positron',
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        legend=False,
-                        zoom_on_click=True,
-                        name="Intersections - Prioritised by demand",
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        marker_type="circle_marker",
-                        marker_kwds={
-                            "radius" : "6"},
-                        style_kwds= {
-                            "fillColor":"red",
-                            "stroke":True,
-                            "weight":0.6,
-                            "opacity":0.7
-                        })
-
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
-                        
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(intersection_demand)  
-                    
-                with col2:
-                    st.subheader("Demand Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{len(intersection_demand.index)}** {data_selection} identified in this analysis.
-
-                                These intersections have been selected because they accomodate::
-                                - an average of **{intersection_demand['ADT_PT'].mean().astype('int')}** bus users travelling through them every day (2048).
-                                - an average of **{intersection_demand['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
-                                - average delays of **{intersection_demand['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
-                                
-                                """) 
-
-
-            if analysis_selection == 'Demand' and data_selection == 'Both roads and intersections':
-                    
-                with col1:
-                    
-                    map = intersection_demand.explore(tiles='CartoDB positron',
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        legend=False,
-                        zoom_on_click=True,
-                        name="Intersections - Prioritised by demand",
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        marker_type="circle_marker",
-                        marker_kwds={
-                            "radius" : "6"},
-                        style_kwds= {
-                            "fillColor":"red",
-                            "stroke":True,
-                            "weight":0.6,
-                            "opacity":0.7})
-                    
-                    links_demand.explore(
-                        m=map,
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Prioritised by demand",
-                        style_kwds= {
-                            "color":"red",
-                            "weight":3,
-                            "opacity":0.7})
-
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
-                        
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(pd.concat([links_demand, intersection_demand]))  
-                    
-                with col2:
-                    st.subheader("Demand Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{len(intersection_demand.index)}** intersections and **{len(links_demand.index)}** road segments identified in this analysis.
-
-                                These roads and intersections have been selected because they accomodate:
-                                - an average of **{(links_demand['ADT_PT'].mean().astype('int'))+(intersection_demand['ADT_PT'].mean().astype('int'))}** bus users travelling through them every day (2048).
-                                - an average of **{(intersection_demand['AM_PT'].mean().astype('int'))+(links_demand['AM_PT'].mean().astype('int'))}** bus users in the AM peak (2048).
-                                - average delays of **{intersection_demand['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
-                                
-                                """)
-
-            if analysis_selection == 'All locations' and data_selection == 'Roads':
-                    
-                with col1:
-                                        
-                    map = links_demand.explore(tiles='CartoDB positron',
-                        legend=True,
-                        column='LOS',
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Prioritised by demand",
-                        style_kwds= {
+                st.markdown(f"""
                             
-                            "weight":3,
-                            "opacity":0.7},
-                        legend_kwds= {
-                            "caption":"Level of service",
-                            "fmt":"{:.0f}",
-                        })
-                    
-                    links_key_locations.explore(
-                        m=map,
-                        column='LOS',
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Key locations",
-                        style_kwds= {
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{len(links_key_locations.index)}** road segments identified in this analysis.
+
+                            These roads have been selected because they are forecast to accomodate:
+                            - an average of **{links_key_locations['ADT_PT'].mean().astype('int')}** bus users per day (2048).
+                            - an average of **{links_key_locations['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
+                            - average level of service (LoS) classification of **{links_key_locations['LOS'].mean().astype('int')}**, equating to >120 seconds of delay per bus every hour (2048).
                             
-                            "weight":3,
-                            "opacity":0.7})
+                            """)
+
+        if analysis_selection == 'Key locations' and data_selection == 'Intersections':
+                
+            with col1:
+                
+                map = intersection_key_locations.explore(tiles='CartoDB positron',
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    legend=False,
+                    zoom_on_click=True,
+                    name="Intersections - Critical locations",
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    marker_type="circle_marker",
+                    marker_kwds={
+                        "radius" : "6"},
+                    style_kwds= {
+                        "fillColor":"red",
+                        "stroke":True,
+                        "weight":0.6,
+                        "opacity":0.7
+                    })
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
                     
-                    links_delay.explore(
-                        m=map,
-                        column='LOS',
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Prioritised by delay",
-                        style_kwds= {
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(intersection_key_locations)  
+                
+            with col2:
+                st.subheader("Key Locations Summary")
+
+                st.markdown(f"""
                             
-                            "weight":3,
-                            "opacity":0.7})
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{len(intersection_key_locations.index)}** {data_selection} identified in this analysis.
+
+                            These intersections have been selected because they accomodate::
+                            - an average of **{intersection_key_locations['ADT_PT'].mean().astype('int')}** bus users travelling through them every day (2048).
+                            - an average of **{intersection_key_locations['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
+                            - average delays of **{intersection_key_locations['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
+                            
+                            """) 
+
+
+        if analysis_selection == 'Key locations' and data_selection == 'Both roads and intersections':
+                
+            with col1:
+                
+                map = intersection_key_locations.explore(tiles='CartoDB positron',
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    legend=False,
+                    zoom_on_click=True,
+                    name="Intersections - Critical locations",
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    marker_type="circle_marker",
+                    marker_kwds={
+                        "radius" : "6"},
+                    style_kwds= {
+                        "fillColor":"red",
+                        "stroke":True,
+                        "weight":0.6,
+                        "opacity":0.7})
+                
+                links_key_locations.explore(
+                    m=map,
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Critical locations",
+                    style_kwds= {
+                        "color":"red",
+                        "weight":3,
+                        "opacity":0.7})
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
                     
-                    folium.LayerControl().add_to(map)
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(pd.concat([intersection_key_locations, links_key_locations]))  
+                
+            with col2:
+                st.subheader("Key Locations Summary")
+
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{len(intersection_key_locations.index)}** intersections and **{len(links_key_locations.index)}** road segments identified in this analysis.
+
+                            These roads and intersections have been selected because they accomodate:
+                            - an average of **{intersection_key_locations['ADT_PT'].mean().astype('int')}** bus users travelling through them every day (2048).
+                            - an average of **{intersection_key_locations['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
+                            - average delays of **{intersection_key_locations['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
+                            
+                            """)
+
+        if analysis_selection == 'Delay' and data_selection == 'Roads':
+                
+            with col1:
+                
+                map = links_delay.explore(tiles='CartoDB positron',
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Prioritised by delay",
+                    style_kwds= {
+                        "color":"red",
+                        "weight":3,
+                        "opacity":0.7})
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
                     
-                    out = st_folium(map, use_container_width=True)
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(links_delay)  
+                
+            with col2:
+                st.subheader("Delay Locations Summary")
+
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{len(links_delay.index)}** road segments identified in this analysis.
+
+                            These roads have been selected because they are forecast to accomodate:
+                            - an average of **{links_delay['ADT_PT'].mean().astype('int')}** bus users per day (2048).
+                            - an average of **{links_delay['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
+                            - average level of service (LoS) classification of **{links_delay['LOS'].mean().astype('int')}**, equating to >80 seconds of delay per bus every hour (2048).
+                            
+                            """)
+
+        if analysis_selection == 'Delay' and data_selection == 'Intersections':
+                
+            with col1:
+                
+                map = intersection_delay.explore(tiles='CartoDB positron',
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    legend=False,
+                    zoom_on_click=True,
+                    name="Intersections - Prioritised by delay",
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    marker_type="circle_marker",
+                    marker_kwds={
+                        "radius" : "6"},
+                    style_kwds= {
+                        "fillColor":"red",
+                        "stroke":True,
+                        "weight":0.6,
+                        "opacity":0.7
+                    })
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
+                    
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(intersection_delay)  
+                
+            with col2:
+                st.subheader("Delay Locations Summary")
+
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{len(intersection_delay.index)}** {data_selection} identified in this analysis.
+
+                            These intersections have been selected because they accomodate::
+                            - an average of **{intersection_delay['ADT_PT'].mean().astype('int')}** bus users travelling through them every day (2048).
+                            - an average of **{intersection_delay['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
+                            - average delays of **{intersection_delay['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
+                            
+                            """) 
+
+
+        if analysis_selection == 'Delay' and data_selection == 'Both roads and intersections':
+                
+            with col1:
+                
+                map = intersection_delay.explore(tiles='CartoDB positron',
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    legend=False,
+                    zoom_on_click=True,
+                    name="Intersections - Prioritised by delay",
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    marker_type="circle_marker",
+                    marker_kwds={
+                        "radius" : "6"},
+                    style_kwds= {
+                        "fillColor":"red",
+                        "stroke":True,
+                        "weight":0.6,
+                        "opacity":0.7})
+                
+                links_delay.explore(
+                    m=map,
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Prioritised by delay",
+                    style_kwds= {
+                        "color":"red",
+                        "weight":3,
+                        "opacity":0.7})
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
+                    
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(pd.concat([intersection_delay, intersection_demand]))  
+                
+            with col2:
+                st.subheader("Delay Locations Summary")
+
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{len(intersection_delay.index)}** intersections and **{len(links_delay.index)}** road segments identified in this analysis.
+
+                            These roads and intersections have been selected because they accomodate:
+                            - an average of **{(links_delay['ADT_PT'].mean().astype('int'))+(intersection_delay['ADT_PT'].mean().astype('int'))}** bus users travelling through them every day (2048).
+                            - an average of **{(intersection_delay['AM_PT'].mean().astype('int'))+(links_delay['AM_PT'].mean().astype('int'))}** bus users in the AM peak (2048).
+                            - average delays of **{intersection_delay['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
+                            
+                            """) 
+                
+        if analysis_selection == 'Demand' and data_selection == 'Roads':
+                
+            with col1:
+                
+                map = links_demand.explore(tiles='CartoDB positron',
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Prioritised by demand",
+                    style_kwds= {
+                        "color":"red",
+                        "weight":3,
+                        "opacity":0.7})
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
+                    
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(links_demand)  
+                
+            with col2:
+                st.subheader("Demand Locations Summary")
+
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{len(links_demand.index)}** road segments identified in this analysis.
+
+                            These roads have been selected because they are forecast to accomodate:
+                            - an average of **{links_demand['ADT_PT'].mean().astype('int')}** bus users per day (2048).
+                            - an average of **{links_demand['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
+                            - average level of service (LoS) classification of **{links_demand['LOS'].mean().astype('int')}**, equating to >80 seconds of delay per bus every hour (2048).
+                            
+                            """)
+
+        if analysis_selection == 'Demand' and data_selection == 'Intersections':
+                
+            with col1:
+                
+                map = intersection_demand.explore(tiles='CartoDB positron',
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    legend=False,
+                    zoom_on_click=True,
+                    name="Intersections - Prioritised by demand",
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    marker_type="circle_marker",
+                    marker_kwds={
+                        "radius" : "6"},
+                    style_kwds= {
+                        "fillColor":"red",
+                        "stroke":True,
+                        "weight":0.6,
+                        "opacity":0.7
+                    })
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
+                    
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(intersection_demand)  
+                
+            with col2:
+                st.subheader("Demand Locations Summary")
+
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{len(intersection_demand.index)}** {data_selection} identified in this analysis.
+
+                            These intersections have been selected because they accomodate::
+                            - an average of **{intersection_demand['ADT_PT'].mean().astype('int')}** bus users travelling through them every day (2048).
+                            - an average of **{intersection_demand['AM_PT'].mean().astype('int')}** bus users in the AM peak (2048).
+                            - average delays of **{intersection_demand['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
+                            
+                            """) 
+
+
+        if analysis_selection == 'Demand' and data_selection == 'Both roads and intersections':
+                
+            with col1:
+                
+                map = intersection_demand.explore(tiles='CartoDB positron',
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    legend=False,
+                    zoom_on_click=True,
+                    name="Intersections - Prioritised by demand",
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    marker_type="circle_marker",
+                    marker_kwds={
+                        "radius" : "6"},
+                    style_kwds= {
+                        "fillColor":"red",
+                        "stroke":True,
+                        "weight":0.6,
+                        "opacity":0.7})
+                
+                links_demand.explore(
+                    m=map,
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Prioritised by demand",
+                    style_kwds= {
+                        "color":"red",
+                        "weight":3,
+                        "opacity":0.7})
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
+                    
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(pd.concat([links_demand, intersection_demand]))  
+                
+            with col2:
+                st.subheader("Demand Locations Summary")
+
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{len(intersection_demand.index)}** intersections and **{len(links_demand.index)}** road segments identified in this analysis.
+
+                            These roads and intersections have been selected because they accomodate:
+                            - an average of **{(links_demand['ADT_PT'].mean().astype('int'))+(intersection_demand['ADT_PT'].mean().astype('int'))}** bus users travelling through them every day (2048).
+                            - an average of **{(intersection_demand['AM_PT'].mean().astype('int'))+(links_demand['AM_PT'].mean().astype('int'))}** bus users in the AM peak (2048).
+                            - average delays of **{intersection_demand['DELAY_WAVG'].mean().astype('int')}** seconds every hour per bus movement (2048).
+                            
+                            """)
+
+        if analysis_selection == 'All locations' and data_selection == 'Roads':
+                
+            with col1:
+                                    
+                map = links_demand.explore(tiles='CartoDB positron',
+                    legend=True,
+                    column='LOS',
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Prioritised by demand",
+                    style_kwds= {
                         
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(pd.concat([links_key_locations, links_demand, links_delay]))  
-                    
-                with col2:
-                    st.subheader("All Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** road segments identified in this analysis.
-
-                                These roads have been selected because they are forecast to accomodate:
-                                - an average of **{((links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean())).astype('int')}** bus users per day (2048).
-                                - an average of **{((links_demand['AM_PT'].mean())+(links_key_locations['AM_PT'].mean())+(links_delay['AM_PT'].mean())).astype('int')}** bus users in the AM peak (2048).
-                                - average level of service (LoS) classification of **{links_key_locations['LOS'].mean().astype('int')}**, equating to >120 seconds of delay per bus every hour (2048).
-                                
-                                """)
-
-            if analysis_selection == 'All locations' and data_selection == 'Intersections':
-                    
-                with col1:
-                    
-                    map = intersection_demand.explore(tiles='CartoDB positron',
-                        legend=True,
-                        column='DELAY_WAVG',
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Intersections - Prioritised by demand",
-                        style_kwds= {
-                            "weight":3,
-                            "opacity":0.7},
-                        legend_kwds= {
-                            "caption":"Seconds of delay/hr per bus movement",
-                            "fmt":"{:.0f}"})
-                    
-                    intersection_key_locations.explore(
-                        m=map,
-                        column='DELAY_WAVG',
-                        legend=False,
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Intersections - Key locations",
-                        style_kwds= {
-                            "weight":3,
-                            "opacity":0.7})
-                    
-                    intersection_delay.explore(
-                        m=map,
-                        column='DELAY_WAVG',
-                        legend=False,
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Intersections - Prioritised by delay",
-                        style_kwds= {
-                            "weight":3,
-                            "opacity":0.7})
-
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
+                        "weight":3,
+                        "opacity":0.7},
+                    legend_kwds= {
+                        "caption":"Level of service",
+                        "fmt":"{:.0f}",
+                    })
+                
+                links_key_locations.explore(
+                    m=map,
+                    column='LOS',
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Key locations",
+                    style_kwds= {
                         
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(pd.concat([intersection_key_locations, intersection_delay, intersection_demand]))  
-                    
-                with col2:
-                    st.subheader("All Locations Summary")
-
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
-
-                                There are **{(len(intersection_demand.index))+(len(intersection_key_locations.index))+(len(intersection_delay.index))}** identified in this analysis.
-
-                                These intersections have been selected because they accomodate::
-                                - an average of **{((intersection_demand['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())+(intersection_delay['ADT_PT'].mean())).astype('int')}** bus users travelling through them every day (2048).
-                                - an average of **{((intersection_demand['AM_PT'].mean())+(intersection_key_locations['AM_PT'].mean())+(intersection_delay['AM_PT'].mean())).astype('int')}** bus users in the AM peak (2048).
-                                - average delays of **{((intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean())).astype('int')}** seconds every hour per bus movement (2048).
-                                
-                                """) 
-
-
-            if analysis_selection == 'All locations' and data_selection == 'Both roads and intersections':
-                    
-                with col1:
-                    
-                    map = links_demand.explore(tiles='CartoDB positron',
-                        legend=True,
-                        column='LOS',
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Prioritised by demand",
-                        style_kwds= {
-                            "weight":3,
-                            "opacity":0.7},
-                        legend_kwds= {
-                            "caption":"Links - Level of service",
-                            "fmt":"{:.0f}",
-                        })
-                    
-                    links_key_locations.explore(
-                        m=map,
-                        column='LOS',
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Key locations",
-                        style_kwds= {
-                            "weight":3,
-                            "opacity":0.7})
-                    
-                    links_delay.explore(
-                        m=map,
-                        column='LOS',
-                        legend=False,
-                        tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Links - Prioritised by delay",
-                        style_kwds= {
-                            "weight":3,
-                            "opacity":0.7})
-                    
-                    intersection_demand.explore(
-                        m=map,
-                        legend=True,
-                        column='DELAY_WAVG',
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Intersections - Prioritised by demand",
-                        style_kwds= {
-                            "weight":3,
-                            "opacity":0.7},
-                        legend_kwds= {
-                            "caption":"Intersections - Seconds of delay/hr per bus movement",
-                            "fmt":"{:.0f}",
-                        })
-                    
-                    intersection_key_locations.explore(
-                        m=map,
-                        column='DELAY_WAVG',
-                        legend=False,
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Intersections - Key locations",
-                        style_kwds= {
-                            "weight":3,
-                            "opacity":0.7})
-                    
-                    intersection_delay.explore(
-                        m=map,
-                        column='DELAY_WAVG',
-                        legend=False,
-                        tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
-                        highlight=True,
-                        zoom_on_click=True,
-                        name="Intersections - Prioritised by delay",
-                        style_kwds= {
-                            "weight":3,
-                            "opacity":0.7})
-
-                    folium.LayerControl().add_to(map)
-                    
-                    out = st_folium(map, use_container_width=True)
+                        "weight":3,
+                        "opacity":0.7})
+                
+                links_delay.explore(
+                    m=map,
+                    column='LOS',
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Prioritised by delay",
+                    style_kwds= {
                         
-                    if st.checkbox('Show raw data'):
-                        st.subheader('Raw data')
-                        st.write(pd.concat([intersection_key_locations, intersection_delay, intersection_demand, links_key_locations, links_demand, links_delay]))  
+                        "weight":3,
+                        "opacity":0.7})
+                
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
                     
-                with col2:
-                    st.subheader("All Locations Summary")
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(pd.concat([links_key_locations, links_demand, links_delay]))  
+                
+            with col2:
+                st.subheader("All Locations Summary")
 
-                    st.markdown(f"""
-                                
-                                This shows the results of analysis for:
-                                - {analysis_selection}; where,
-                                - {data_selection} has been selected.
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
 
-                                There are **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** intersections and **{(len(intersection_demand.index))+(len(intersection_key_locations.index))+(len(intersection_delay.index))}** road segments identified in this analysis.
+                            There are **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** road segments identified in this analysis.
 
-                                These roads and intersections have been selected because they accomodate:
-                                - an average of **{(((links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean())).astype('int'))+(((intersection_demand['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())+(intersection_delay['ADT_PT'].mean())).astype('int'))}** bus users travelling through them every day (2048).
-                                - an average of **{(((links_demand['AM_PT'].mean())+(links_key_locations['AM_PT'].mean())+(links_delay['AM_PT'].mean())).astype('int'))+(((intersection_demand['AM_PT'].mean())+(intersection_key_locations['AM_PT'].mean())+(intersection_delay['AM_PT'].mean())).astype('int'))}** bus users in the AM peak (2048).
-                                - average delays of **{((intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean())).astype('int')}** seconds every hour per bus movement (2048).
-                                
-                                """)
+                            These roads have been selected because they are forecast to accomodate:
+                            - an average of **{((links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean())).astype('int')}** bus users per day (2048).
+                            - an average of **{((links_demand['AM_PT'].mean())+(links_key_locations['AM_PT'].mean())+(links_delay['AM_PT'].mean())).astype('int')}** bus users in the AM peak (2048).
+                            - average level of service (LoS) classification of **{links_key_locations['LOS'].mean().astype('int')}**, equating to >120 seconds of delay per bus every hour (2048).
+                            
+                            """)
+
+        if analysis_selection == 'All locations' and data_selection == 'Intersections':
+                
+            with col1:
+                
+                map = intersection_demand.explore(tiles='CartoDB positron',
+                    legend=True,
+                    column='DELAY_WAVG',
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Intersections - Prioritised by demand",
+                    style_kwds= {
+                        "weight":3,
+                        "opacity":0.7},
+                    legend_kwds= {
+                        "caption":"Seconds of delay/hr per bus movement",
+                        "fmt":"{:.0f}"})
+                
+                intersection_key_locations.explore(
+                    m=map,
+                    column='DELAY_WAVG',
+                    legend=False,
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Intersections - Key locations",
+                    style_kwds= {
+                        "weight":3,
+                        "opacity":0.7})
+                
+                intersection_delay.explore(
+                    m=map,
+                    column='DELAY_WAVG',
+                    legend=False,
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Intersections - Prioritised by delay",
+                    style_kwds= {
+                        "weight":3,
+                        "opacity":0.7})
+
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
+                    
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(pd.concat([intersection_key_locations, intersection_delay, intersection_demand]))  
+                
+            with col2:
+                st.subheader("All Locations Summary")
+
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{(len(intersection_demand.index))+(len(intersection_key_locations.index))+(len(intersection_delay.index))}** identified in this analysis.
+
+                            These intersections have been selected because they accomodate::
+                            - an average of **{((intersection_demand['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())+(intersection_delay['ADT_PT'].mean())).astype('int')}** bus users travelling through them every day (2048).
+                            - an average of **{((intersection_demand['AM_PT'].mean())+(intersection_key_locations['AM_PT'].mean())+(intersection_delay['AM_PT'].mean())).astype('int')}** bus users in the AM peak (2048).
+                            - average delays of **{((intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean())).astype('int')}** seconds every hour per bus movement (2048).
+                            
+                            """) 
+
+
+        if analysis_selection == 'All locations' and data_selection == 'Both roads and intersections':
+                
+            with col1:
+                
+                map = links_demand.explore(tiles='CartoDB positron',
+                    legend=True,
+                    column='LOS',
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Prioritised by demand",
+                    style_kwds= {
+                        "weight":3,
+                        "opacity":0.7},
+                    legend_kwds= {
+                        "caption":"Links - Level of service",
+                        "fmt":"{:.0f}",
+                    })
+                
+                links_key_locations.explore(
+                    m=map,
+                    column='LOS',
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Key locations",
+                    style_kwds= {
+                        "weight":3,
+                        "opacity":0.7})
+                
+                links_delay.explore(
+                    m=map,
+                    column='LOS',
+                    legend=False,
+                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Links - Prioritised by delay",
+                    style_kwds= {
+                        "weight":3,
+                        "opacity":0.7})
+                
+                intersection_demand.explore(
+                    m=map,
+                    legend=True,
+                    column='DELAY_WAVG',
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Intersections - Prioritised by demand",
+                    style_kwds= {
+                        "weight":3,
+                        "opacity":0.7},
+                    legend_kwds= {
+                        "caption":"Intersections - Seconds of delay/hr per bus movement",
+                        "fmt":"{:.0f}",
+                    })
+                
+                intersection_key_locations.explore(
+                    m=map,
+                    column='DELAY_WAVG',
+                    legend=False,
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Intersections - Key locations",
+                    style_kwds= {
+                        "weight":3,
+                        "opacity":0.7})
+                
+                intersection_delay.explore(
+                    m=map,
+                    column='DELAY_WAVG',
+                    legend=False,
+                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    highlight=True,
+                    zoom_on_click=True,
+                    name="Intersections - Prioritised by delay",
+                    style_kwds= {
+                        "weight":3,
+                        "opacity":0.7})
+
+                folium.LayerControl().add_to(map)
+                
+                out = st_folium(map, use_container_width=True)
+                    
+                if st.checkbox('Show raw data'):
+                    st.subheader('Raw data')
+                    st.write(pd.concat([intersection_key_locations, intersection_delay, intersection_demand, links_key_locations, links_demand, links_delay]))  
+                
+            with col2:
+                st.subheader("All Locations Summary")
+
+                st.markdown(f"""
+                            
+                            This shows the results of analysis for:
+                            - {analysis_selection}; where,
+                            - {data_selection} has been selected.
+
+                            There are **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** intersections and **{(len(intersection_demand.index))+(len(intersection_key_locations.index))+(len(intersection_delay.index))}** road segments identified in this analysis.
+
+                            These roads and intersections have been selected because they accomodate:
+                            - an average of **{(((links_demand['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())+(links_delay['ADT_PT'].mean())).astype('int'))+(((intersection_demand['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())+(intersection_delay['ADT_PT'].mean())).astype('int'))}** bus users travelling through them every day (2048).
+                            - an average of **{(((links_demand['AM_PT'].mean())+(links_key_locations['AM_PT'].mean())+(links_delay['AM_PT'].mean())).astype('int'))+(((intersection_demand['AM_PT'].mean())+(intersection_key_locations['AM_PT'].mean())+(intersection_delay['AM_PT'].mean())).astype('int'))}** bus users in the AM peak (2048).
+                            - average delays of **{((intersection_demand['DELAY_WAVG'].mean())+(intersection_key_locations['DELAY_WAVG'].mean())+(intersection_delay['DELAY_WAVG'].mean())).astype('int')}** seconds every hour per bus movement (2048).
+                            
+                            """)
 
 with tab3:
     st.markdown("""
