@@ -82,9 +82,9 @@ with tab2:
     merged_links = df_load_data(r'data/merged_links.xlsx')
 
     #drop-down box
-    analysis_selection = st.selectbox('Please select what type of analysis you are interested in exploring.', ['Key locations', 'Delay', 'Demand', 'All locations'])
+    analysis_selection = st.selectbox('Please select what type of analysis you are interested in exploring.', ['Select', 'Key locations', 'Delay', 'Demand', 'All locations'])
     
-    if analysis_selection == [1, 2, 3]:
+    if analysis_selection == ['Key locations', 'Delay', 'Demand', 'All locations']:
         
         #radio button
         data_selection = st.radio('What type of data do you want to see?', ['Select', 'Roads', 'Intersections', 'Both roads and intersections'])
