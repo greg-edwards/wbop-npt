@@ -20,7 +20,7 @@ st.sidebar.info(
     """
     The Network Prioritisation Tool (NPT) is a Beca-designed tool to help identify and prioritise public transport investment across the Western Bay of Plenty's transport network.
     
-    This analysis forms part of a wider programme of work - through the PT Services and Infrastructure Business Case - which is investigating the case for change in the Western Bay of Plenty sub-region’s public transport system  
+    This analysis forms part of a wider programme of work - through the PT Services and Infrastructure Business Case - which is investigating the case for change in the Western Bay of Plenty sub-region’s public transport system.  
 
     """
 )
@@ -47,7 +47,7 @@ with tab1:
                 Locations are split into several categories:
                 - **Key locations:** representing the highest priority locations where sigificant bus delay, bus volume, and passenger demand are expected.
                 - **Delay:** secondary locations (outside of the key locations) where buses are expected to suffer reasonable levels of delay in the future.
-                - **Demand:** secondary locations (outside of the key locations) experiencing moderate levels of bus demand.
+                - **Demand:** secondary locations (outside of the key locations) forecast to experience moderate levels of bus demand.
                 - **All locations:** All of the above.
                 
                 To view the NPT tool, click on 'The tool' tab above.
@@ -782,7 +782,7 @@ with tab2:
 with tab3:
     st.markdown("""
                 
-                The NPT has been developed in a top-down process using a transparent methodology and consistent datasets, transport modelling data, alongside local knowledge and expertise. It is built upon several key information/data sources, such as the Tauranga Transport Strategic Model (TTSM), as well as open source public data. 
+                The NPT has been developed in a top-down process using a variety of datasets, including transport modelling data, Remix model outputs, alongside open-source data. It is built upon several key information/data sources, such as the Tauranga Transport Strategic Model (TTSM), as well as General Transit Feed Specification data. 
                 
                 """)
     st.subheader("Data")
@@ -792,7 +792,7 @@ with tab3:
                 OpenStreetMap (OSM) data was downloaded in bulk and used to define road type and other features. This information was combined with geometric outputs from Remix to only identify road segments where services will operate. Several ‘filters’ were defined  and applied to the dataset to help identify road network geometries amenable to investment. The main criteria used included:
                 - Geometric space able to accommodate infrastructure prioritisation measures (i.e., measured by the number of lanes of traffic lanes available in one direction);
                 - The frequency of bus services using road network segment, with higher priority given to network segments that accommodate higher frequency services;
-                - Forecast passenger demand by each network segment, with higher priority given to network segments that accommodate higher passenger demand;
+                - Forecast passenger demand (2048) by each network segment, with higher priority given to network segments that accommodate higher passenger demand;
                 - Forecast (2048) delay to buses, with high priority given to locations that experience greater levels of delay;
 
                 The table below outlines the data inputs into the NPT tool.
@@ -802,6 +802,7 @@ with tab3:
             'Data input' : ['Number of general traffic lanes available in one direction (minimum 1+)', 'Remix model data. Network route segments weighted by Hybrid Model network frequency', 'TTSM daily PT trips and AM peak dail trips by network link', 'TTSM 2048 level of service delay by link and node']}
 
     df = pd.DataFrame(data=table)
+    df.style.hide_index()
 
     st.table(df)
 
