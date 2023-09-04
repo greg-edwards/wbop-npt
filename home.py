@@ -45,15 +45,15 @@ with tab1:
                 The Network Prioritisation Tool (NPT) has been developed to help identify network locations that could benefit from PT investment. It provides a summary of roads and intersections across the transport network representing varying levels of priority based on specific criteria such as bus delay and forecast passenger demand. Users can customize the analysis for their specific purpose to better understand the factors that influence where investment could be targeted.
                 
                 Locations are split into several categories:
-                - **Key locations:** representing the highest priority locations where sigificant bus delays, bus volumes, and passenger demand is expected.
-                - **Delay:** secondary locations outside of the key locations where buses are expected to suffer reasonable levels of delay in the future.
-                - **Demand:** secondary locations outside of the key locations experiencing greater levels of bus demand.
+                - **Key locations:** representing the highest priority locations where sigificant bus delay, bus volume, and passenger demand are expected.
+                - **Delay:** secondary locations (outside of the key locations) where buses are expected to suffer reasonable levels of delay in the future.
+                - **Demand:** secondary locations (outside of the key locations) experiencing moderate levels of bus demand.
                 - **All locations:** All of the above.
                 
                 To view the NPT tool, click on 'The tool' tab above.
                 """)
 
-    st.info("For further information on how this tool was developed, click on the 'How it works' tab above.")
+    st.info("For further information on how this tool was developed, click on the 'How it works' tab.")
 
 with tab2:
 
@@ -117,9 +117,6 @@ with tab2:
                 
                 out = st_folium(map, use_container_width=True)
                     
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(links_key_locations)  
                 
             with col2:
                 st.subheader("Key Locations Summary")
@@ -164,10 +161,7 @@ with tab2:
                 folium.LayerControl().add_to(map)
                 
                 out = st_folium(map, use_container_width=True)
-                    
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(intersection_key_locations)  
+                     
                 
             with col2:
                 st.subheader("Key Locations Summary")
@@ -226,9 +220,6 @@ with tab2:
                 
                 out = st_folium(map, use_container_width=True)
                     
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(pd.concat([intersection_key_locations, links_key_locations]))  
                 
             with col2:
                 st.subheader("Key Locations Summary")
@@ -269,9 +260,6 @@ with tab2:
                 
                 out = st_folium(map, use_container_width=True)
                     
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(links_delay)  
                 
             with col2:
                 st.subheader("Delay Locations Summary")
@@ -316,10 +304,7 @@ with tab2:
                 folium.LayerControl().add_to(map)
                 
                 out = st_folium(map, use_container_width=True)
-                    
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(intersection_delay)  
+                     
                 
             with col2:
                 st.subheader("Delay Locations Summary")
@@ -377,10 +362,7 @@ with tab2:
                 folium.LayerControl().add_to(map)
                 
                 out = st_folium(map, use_container_width=True)
-                    
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(pd.concat([intersection_delay, intersection_demand]))  
+                     
                 
             with col2:
                 st.subheader("Delay Locations Summary")
@@ -421,9 +403,6 @@ with tab2:
                 
                 out = st_folium(map, use_container_width=True)
                     
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(links_demand)  
                 
             with col2:
                 st.subheader("Demand Locations Summary")
@@ -469,9 +448,6 @@ with tab2:
                 
                 out = st_folium(map, use_container_width=True)
                     
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(intersection_demand)  
                 
             with col2:
                 st.subheader("Demand Locations Summary")
@@ -530,9 +506,6 @@ with tab2:
                 
                 out = st_folium(map, use_container_width=True)
                     
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(pd.concat([links_demand, intersection_demand]))  
                 
             with col2:
                 st.subheader("Demand Locations Summary")
@@ -604,10 +577,7 @@ with tab2:
                 folium.LayerControl().add_to(map)
                 
                 out = st_folium(map, use_container_width=True)
-                    
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(pd.concat([links_key_locations, links_demand, links_delay]))  
+                     
                 
             with col2:
                 st.subheader("All Locations Summary")
@@ -677,9 +647,6 @@ with tab2:
                 
                 out = st_folium(map, use_container_width=True)
                     
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(pd.concat([intersection_key_locations, intersection_delay, intersection_demand]))  
                 
             with col2:
                 st.subheader("All Locations Summary")
@@ -793,9 +760,6 @@ with tab2:
                 
                 out = st_folium(map, use_container_width=True)
                     
-                if st.checkbox('Show raw data'):
-                    st.subheader('Raw data')
-                    st.write(pd.concat([intersection_key_locations, intersection_delay, intersection_demand, links_key_locations, links_demand, links_delay]))  
                 
             with col2:
                 st.subheader("All Locations Summary")
@@ -851,12 +815,12 @@ with tab3:
                 - Nodes: locations where there is high PT demand (ie equating to roughly 150+ daily trips in AM peak) leading to intersections with forecast high levels of delay (ie, LOS D-F). Nodes ranked by the level of forecast demand (AM peak).
                 - Links: routes/links where there is high PT demand (roughly 150+ daily PT trips in AM peak) and high number of buses (>= 20 per day) under the Hybrid network along low LOS links (ie LOS D-F). Links ranked by the level of forecast demand (AM peak).
 
-                **Delay Locations**
-                - Nodes: locations (outsie of key locations) where there is high PT demand (ie equating to roughly 150+ daily trips in AM peak) leading to intersections with forecast moderate levels of delay (ie, LOS C-F). Nodes ranked by delay.
+                **Delay Locations (outside key locations)**
+                - Nodes: locations where there is high PT demand (ie equating to roughly 150+ daily trips in AM peak) leading to intersections with forecast moderate levels of delay (ie, LOS C-F). Nodes ranked by delay.
                 - Links: routes/links where there is high PT demand (roughly 150+ daily PT trips in AM peak) and high number of buses (>= 20 per day) under the Hybrid network along low LOS links (ie LOS C-F). Links ranked by delay.
 
-                **Demand Locations**
-                - Nodes: locations (outsie of key locations) where there is moderate PT demand (ie equating to roughly 80+ daily trips in AM peak) leading to intersections with forecast moderate levels of delay (ie, LOS C-F). Nodes ranked by forecast AM peak demand.
+                **Demand Locations (outside key locations)**
+                - Nodes: locations where there is moderate PT demand (ie equating to roughly 80+ daily trips in AM peak) leading to intersections with forecast moderate levels of delay (ie, LOS C-F). Nodes ranked by forecast AM peak demand.
                 - Links: routes/links where there is mdoerate PT demand (roughly 80+ daily PT trips in AM peak) and high number of buses (>= 20 per day) under the Hybrid network along low LOS links (ie LOS C-F). Links ranked by forecast AM peak demand. 
 
                 """)
