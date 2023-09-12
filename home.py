@@ -815,7 +815,7 @@ with tab3:
                 
                 The NPT uses several threshold criteria to identify and prioritise nodes and links:
 
-                **Key Locations**
+                **Priority Locations**
                 - Nodes: locations where there is high PT demand (ie equating to roughly 150+ daily trips in AM peak) leading to intersections with forecast high levels of delay (ie, LOS D-F). Nodes ranked by the level of forecast demand (AM peak).
                 - Links: routes/links where there is high PT demand (roughly 150+ daily PT trips in AM peak) and high number of buses (>= 20 per day) under the Hybrid network along low LOS links (ie LOS D-F). Links ranked by the level of forecast demand (AM peak).
 
