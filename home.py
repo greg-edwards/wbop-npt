@@ -89,9 +89,7 @@ with tab2:
         #radio button
         data_selection = st.radio('What type of data do you want to see?', ['Select', 'Roads', 'Intersections', 'Both roads and intersections'])
         
-
-        st.info("Tip: click on the roads or intersections to explore the data further.")
-
+        
         #define columns
         col1, col2 = st.columns([3, 1])
 
@@ -102,8 +100,8 @@ with tab2:
                 
                 map = links_key_locations.explore(tiles='CartoDB positron',
                     legend=False,
-                    tooltip=['label', 'ADT_PT', 'AM_PT', 'LOS', 'line_name', 'vehicle_co'],
-                    popup=['label', 'ADT_PT', 'AM_PT', 'LOS', 'line_name', 'vehicle_co'],
+                    tooltip=['label', 'ADT_PT', 'AM_PT', 'LOS'],
+                    popup=['label', 'ADT_PT', 'AM_PT', 'LOS'],
                     highlight=True,
                     zoom_on_click=True,
                     name="Links - Priority locations",
@@ -116,6 +114,8 @@ with tab2:
                 folium.LayerControl().add_to(map)
                 
                 out = st_folium(map, use_container_width=True)
+                
+                st.info("Tip: click on the roads or intersections to explore the data further.")
                     
                 
             with col2:
@@ -145,7 +145,7 @@ with tab2:
                     highlight=True,
                     legend=False,
                     zoom_on_click=True,
-                    name="Intersections - Critical locations",
+                    name="Intersections - Priority locations",
                     popup=['LABEL', 'ADT_PT', 'AM_PT', 'DELAY_WAVG'],
                     marker_type="circle_marker",
                     marker_kwds={
@@ -162,6 +162,7 @@ with tab2:
                 
                 out = st_folium(map, use_container_width=True)
                      
+                st.info("Tip: click on the roads or intersections to explore the data further.")
                 
             with col2:
                 st.subheader("Priority Locations Summary")
@@ -191,7 +192,7 @@ with tab2:
                     highlight=True,
                     legend=False,
                     zoom_on_click=True,
-                    name="Intersections - Critical locations",
+                    name="Intersections - Priority locations",
                     popup=['LABEL', 'ADT_PT', 'AM_PT', 'DELAY_WAVG'],
                     marker_type="circle_marker",
                     marker_kwds={
@@ -205,8 +206,8 @@ with tab2:
                 links_key_locations.explore(
                     m=map,
                     legend=False,
-                    tooltip=['label', 'ADT_PT', 'AM_PT', 'LOS', 'line_name', 'vehicle_co'],
-                    popup=['label', 'ADT_PT', 'AM_PT', 'LOS', 'line_name', 'vehicle_co'],
+                    tooltip=['label', 'ADT_PT', 'AM_PT', 'LOS'],
+                    popup=['label', 'ADT_PT', 'AM_PT', 'LOS'],
                     highlight=True,
                     zoom_on_click=True,
                     name="Links - Priority locations",
@@ -219,7 +220,8 @@ with tab2:
                 folium.LayerControl().add_to(map)
                 
                 out = st_folium(map, use_container_width=True)
-                    
+                
+                st.info("Tip: click on the roads or intersections to explore the data further.")    
                 
             with col2:
                 st.subheader("Priority Locations Summary")
