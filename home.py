@@ -803,7 +803,8 @@ with tab3:
     table = {'Criteria' : ['Geometric space', 'Service frequency', 'Passenger demand', 'Bus delay'],
             'Data input' : ['Number of general traffic lanes available in one direction (minimum 1+)', 'Remix model data. Network route segments weighted by Hybrid Model network frequency', 'TTSM daily PT trips and AM peak dail trips by network link', 'TTSM 2048 level of service delay by link and node']}
 
-    df = pd.DataFrame(data=table, index=['Criteria'])
+    df = pd.DataFrame(data=table)
+    df.set_index('Criteria')
     
  
     st.table(df)
