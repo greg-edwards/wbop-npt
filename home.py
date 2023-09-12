@@ -45,7 +45,7 @@ with tab1:
                 The Network Prioritisation Tool (NPT) has been developed to help identify network locations that could benefit from PT investment. It provides a summary of roads and intersections across the transport network representing varying levels of priority based on specific criteria such as bus delay and forecast passenger demand. Users can customize the analysis for their specific purpose to better understand the factors that influence where investment could be targeted.
                 
                 Locations are split into several categories:
-                - **Key locations:** representing the highest priority locations where sigificant bus delay, bus volume, and passenger demand are expected.
+                - **Priority locations:** representing the highest priority locations where sigificant bus delay, bus volume, and passenger demand are expected.
                 - **Delay:** secondary locations (outside of the key locations) where buses are expected to suffer reasonable levels of delay in the future.
                 - **Demand:** secondary locations (outside of the key locations) forecast to experience moderate levels of bus demand.
                 - **All locations:** All of the above.
@@ -70,7 +70,7 @@ with tab2:
 
     #import intersection and links data
 
-    intersection_key_locations = gdf_load_data(r"data/key_locations.geojson")
+    intersection_key_locations = gdf_load_data(r"data/intersections_key_locations.geojson")
     intersection_delay = gdf_load_data(r"data/delay.geojson")
     intersection_demand = gdf_load_data(r"data/demand.geojson")
 
@@ -82,7 +82,7 @@ with tab2:
     merged_links = df_load_data(r'data/merged_links.xlsx')
 
     #drop-down box
-    analysis_selection = st.selectbox('Please select what type of analysis you are interested in exploring.', ['Select', 'Key locations', 'Delay', 'Demand', 'All locations'])
+    analysis_selection = st.selectbox('Please select what type of analysis you are interested in exploring.', ['Select', 'Priority locations', 'Delay', 'Demand', 'All locations'])
     
     if analysis_selection == 'Key locations' or 'Delay' or 'Demand' or 'All locations':
         
@@ -96,17 +96,17 @@ with tab2:
         col1, col2 = st.columns([3, 1])
 
         #show specific maps and data on selection
-        if analysis_selection == 'Key locations' and data_selection == 'Roads':
+        if analysis_selection == 'Priority locations' and data_selection == 'Roads':
                 
             with col1:
                 
                 map = links_key_locations.explore(tiles='CartoDB positron',
                     legend=False,
-                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    tooltip=['label', 'ADT_PT', 'AM_PT', 'LOS', 'line_name', 'vehicle_co'],
+                    popup=['label', 'ADT_PT', 'AM_PT', 'LOS', 'line_name', 'vehicle_co'],
                     highlight=True,
                     zoom_on_click=True,
-                    name="Links - Critical locations",
+                    name="Links - Priority locations",
                     style_kwds= {
                         "color":"red",
                         "weight":3,
@@ -119,7 +119,7 @@ with tab2:
                     
                 
             with col2:
-                st.subheader("Key Locations Summary")
+                st.subheader("Priority Locations Summary")
 
                 st.markdown(f"""
                             
@@ -136,17 +136,17 @@ with tab2:
                             
                             """)
 
-        if analysis_selection == 'Key locations' and data_selection == 'Intersections':
+        if analysis_selection == 'Priority locations' and data_selection == 'Intersections':
                 
             with col1:
                 
                 map = intersection_key_locations.explore(tiles='CartoDB positron',
-                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    tooltip=['LABEL', 'ADT_PT', 'AM_PT', 'DELAY_WAVG'],
                     highlight=True,
                     legend=False,
                     zoom_on_click=True,
                     name="Intersections - Critical locations",
-                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    popup=['LABEL', 'ADT_PT', 'AM_PT', 'DELAY_WAVG'],
                     marker_type="circle_marker",
                     marker_kwds={
                         "radius" : "6"},
@@ -164,7 +164,7 @@ with tab2:
                      
                 
             with col2:
-                st.subheader("Key Locations Summary")
+                st.subheader("Priority Locations Summary")
 
                 st.markdown(f"""
                             
@@ -182,17 +182,17 @@ with tab2:
                             """) 
 
 
-        if analysis_selection == 'Key locations' and data_selection == 'Both roads and intersections':
+        if analysis_selection == 'Priority locations' and data_selection == 'Both roads and intersections':
                 
             with col1:
                 
                 map = intersection_key_locations.explore(tiles='CartoDB positron',
-                    tooltip=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    tooltip=['LABEL', 'ADT_PT', 'AM_PT', 'DELAY_WAVG'],
                     highlight=True,
                     legend=False,
                     zoom_on_click=True,
                     name="Intersections - Critical locations",
-                    popup=['AM_PT', 'ADT_PT', 'DELAY_WAVG'],
+                    popup=['LABEL', 'ADT_PT', 'AM_PT', 'DELAY_WAVG'],
                     marker_type="circle_marker",
                     marker_kwds={
                         "radius" : "6"},
@@ -205,11 +205,11 @@ with tab2:
                 links_key_locations.explore(
                     m=map,
                     legend=False,
-                    tooltip=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
-                    popup=['LOS', 'ADT_PT', 'AM_PT', 'line_name', 'vehicle_co'],
+                    tooltip=['label', 'ADT_PT', 'AM_PT', 'LOS', 'line_name', 'vehicle_co'],
+                    popup=['label', 'ADT_PT', 'AM_PT', 'LOS', 'line_name', 'vehicle_co'],
                     highlight=True,
                     zoom_on_click=True,
-                    name="Links - Critical locations",
+                    name="Links - Priority locations",
                     style_kwds= {
                         "color":"red",
                         "weight":3,
@@ -222,7 +222,7 @@ with tab2:
                     
                 
             with col2:
-                st.subheader("Key Locations Summary")
+                st.subheader("Priority Locations Summary")
 
                 st.markdown(f"""
                             
