@@ -579,7 +579,7 @@ with tab2:
                             - {analysis_selection}; where,
                             - {data_selection} has been selected.
 
-                            There are **{(len(links_demand.index))+(len(links_key_locations.index))+(len(links_delay.index))}** intersections and **{(len(intersection_demand.index))+(len(intersection_key_locations.index))+(len(intersection_delay.index))}** road segments identified in this analysis.
+                            There are **{(len(links_secondary.index))+(len(links_key_locations.index))}** roads and **{(len(intersection_secondary.index))+(len(intersection_key_locations.index))}** road segments identified in this analysis.
 
                             These roads and intersections have been selected because they accomodate:
                             - an average of **{(((links_secondary['ADT_PT'].mean())+(links_key_locations['ADT_PT'].mean())).astype('int'))+(((intersection_secondary['ADT_PT'].mean())+(intersection_key_locations['ADT_PT'].mean())).astype('int'))}** bus users travelling through them every day (2048).
